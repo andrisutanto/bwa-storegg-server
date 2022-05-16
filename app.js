@@ -12,12 +12,12 @@ const session = require('express-session')
 
 const flash = require('connect-flash');
 
+// router2 ditaruh disini
+const dashboardRouter = require('./app/dashboard/router');
+const categoryRouter = require('./app/category/router');
+const nominalRouter = require('./app/nominal/router');
 
-
-var dashboardRouter = require('./app/dashboard/router');
-var categoryRouter = require('./app/category/router');
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,8 +43,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // cara pakai admin LTE
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
+// router2 disini juga
 app.use('/', dashboardRouter);
 app.use('/category', categoryRouter);
+app.use('/nominal', nominalRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
