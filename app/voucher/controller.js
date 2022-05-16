@@ -116,7 +116,6 @@ module.exports = {
         voucher,
         nominal,
         category,
-        name: req.session.user.name,
         title: 'Halaman ubah voucher'
       })
 
