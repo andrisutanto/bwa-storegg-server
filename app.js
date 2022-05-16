@@ -4,6 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// middleware disini, untuk override database
+const methodOverride = require('method-override')
+
+// untuk session
+const session = require('express-session')
+
+const flash = require('connect-flash');
+
+
+
+var dashboardRouter = require('./app/dashboard/router');
 var categoryRouter = require('./app/category/router');
 
 var app = express();
@@ -12,6 +23,18 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// untuk session, pastikan udah install dan require modulenya
+app.use(session({
+  secret: 'store gg',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {  }
+}))
+
+app.use(flash());
+
+// method override
+app.use(methodOverride('_method'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,7 +43,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // cara pakai admin LTE
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
-app.use('/', categoryRouter);
+app.use('/', dashboardRouter);
+app.use('/category', categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
