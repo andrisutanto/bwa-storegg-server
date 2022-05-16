@@ -52,6 +52,7 @@ let playerSchema = mongoose.Schema({
 
 }, { timestamps: true })
 
+// validasi email
 playerSchema.path('email').validate(async function (value){
   try {
     const count = await this.model('Player').countDocuments({ email : value })
@@ -62,6 +63,7 @@ playerSchema.path('email').validate(async function (value){
 
 }, attr => `${attr.value} sudah terdaftar`)
 
+// untuk save password, sebelum simpan di encrypt
 playerSchema.pre('save', function (next){
   this.password = bcrypt.hashSync(this.password, HASH_ROUND)
   next()
