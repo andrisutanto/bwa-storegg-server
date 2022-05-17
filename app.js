@@ -11,6 +11,7 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 
 const flash = require('connect-flash');
+var cors = require('cors')
 
 // router2 ditaruh disini
 const dashboardRouter = require('./app/dashboard/router');
@@ -27,6 +28,7 @@ const authRouter = require('./app/auth/router');
 
 const app = express();
 const URL = `/api/v1`;
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
